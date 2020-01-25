@@ -1,0 +1,16 @@
+---
+- name: create backup directory
+  file: path={{ item }} state=directory
+  with_items:
+    - /opt/apps/data
+
+- name: dump databases
+  mysql_db:
+    state: dump
+    login_host: '{{ db.host }}'
+    login_user: '{{ db.user }}'
+    login_password: '{{ db.password }}'
+    login_port: '{{ db.port }}'
+    name: '{{ db.name }}'
+    target: /opt/apps/data/{{ db.name }}-{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}{{ ansible_date_time.hour }}{{ ansible_date_time.minute }}{{ ansible_date_time.second }}.sql
+  when: action == 'dump'

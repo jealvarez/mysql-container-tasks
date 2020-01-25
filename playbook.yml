@@ -1,0 +1,7 @@
+---
+- name: mysql database operations
+  hosts: localhost
+  connection: local
+  roles:
+    - ./roles/mysql
+
